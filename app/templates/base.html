@@ -3,29 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>{% block title %}Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                <li><a href="{{ url_for('main.about') }}">About</a></li>
+                <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <section class="flash-messages">
-            <!-- Placeholder for flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-list">
+                        {% for category, message in messages %}
+                            <li class="flash flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
         </section>
         <div class="content">
-            <!-- Main content goes here -->
+            {% block content %}{% endblock %}
         </div>
     </main>
     <footer>
-        <p>&copy; 2026 Hucstar's Blog</p>
+        <p>&copy; Star's Blog</p>
     </footer>
 </body>
 </html>
